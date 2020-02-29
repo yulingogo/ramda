@@ -70,12 +70,12 @@ var T = function() {return true;};
  *      const greet = R.replace('{name}', R.__, 'Hello, {name}!');
  *      greet('Alice'); //=> 'Hello, Alice!'
  */
-var __ = {'@@functional/placeholder': true};
+var __ = {'@@functional/placeholder': true}; //占位符
 
 function _isPlaceholder(a) {
   return a != null &&
          typeof a === 'object' &&
-         a['@@functional/placeholder'] === true;
+         a['@@functional/placeholder'] === true; 
 }
 
 /**
@@ -86,7 +86,7 @@ function _isPlaceholder(a) {
  * @param {Function} fn The function to curry.
  * @return {Function} The curried function.
  */
-function _curry1(fn) {
+function _curry1(fn) { //参数个数为1的函数柯里化 无参或者为占位符则返回柯里化的函数，有参则返回结果
   return function f1(a) {
     if (arguments.length === 0 || _isPlaceholder(a)) {
       return f1;
@@ -104,7 +104,7 @@ function _curry1(fn) {
  * @param {Function} fn The function to curry.
  * @return {Function} The curried function.
  */
-function _curry2(fn) {
+function _curry2(fn) {  //参数个数为2的函数柯里化
   return function f2(a, b) {
     switch (arguments.length) {
       case 0:
@@ -174,7 +174,7 @@ function _concat(set1, set2) {
   return result;
 }
 
-function _arity(n, fn) {
+function _arity(n, fn) { //返回一个确定参数个数的函数
   /* eslint-disable no-unused-vars */
   switch (n) {
     case 0: return function() { return fn.apply(this, arguments); };
@@ -202,7 +202,7 @@ function _arity(n, fn) {
  * @param {Function} fn The function to curry.
  * @return {Function} The curried function.
  */
-function _curryN(length, received, fn) {
+function _curryN(length, received, fn) { //返回一个确定参数个数的函数。柯里化之后的函数可能传入了一部分参数，然后返回一个函数。本函数就是返回一个确定剩余参数个数的柯里化函数
   return function() {
     var combined = [];
     var argsIdx = 0;
